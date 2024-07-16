@@ -1,3 +1,5 @@
+import { getAllSongs } from '@/store/playlist/index';
+
 export default {
 	currentSong: {
 		playback: {},
@@ -109,5 +111,22 @@ export default {
 			uri: 'https://res.cloudinary.com/jsxclan/video/upload/v1623895070/GitHub/Projects/Musicont/mock/audios/luxuria_nnp3ou.mp3',
 			durationMillis: 185417,
 		},
+		{
+			id: 13,
+			title: 'Estou Procurando',
+			author: 'Fernandinho',
+			img: 'https://res.cloudinary.com/jsxclan/image/upload/v1623895064/GitHub/Projects/Musicont/mock/images/luxuria_kr7c1r.png',
+			uri: 'file:///storage/emulated/0/Download/Estou Procurando (Live)_Y1NHlzRrxsI.mp3',
+			durationMillis: 185417,
+		},
 	],
 };
+
+/*
+(async () => {
+	const songs = await getAllSongs();
+	console.log('@@@@@@@@@@@@@@@@@@@@@');
+	console.log(songs);
+	console.log('@@@@@@@@@@@@@@@@@@@@@');
+})();
+*/

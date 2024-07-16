@@ -6,10 +6,10 @@ export const init = async (defaultConfigs = {}) => {
 		const configs = {
 			allowsRecordingIOS: false,
 			// @ts-ignore
-			interruptionModeIOS: Audio.INTERRUPTION_MODE_IOS_DO_NOT_MIX,
+			//interruptionModeIOS: Audio.INTERRUPTION_MODE_IOS_DO_NOT_MIX,
 			playsInSilentModeIOS: true,
 			// @ts-ignore
-			interruptionModeAndroid: Audio.INTERRUPTION_MODE_ANDROID_DO_NOT_MIX,
+			//interruptionModeAndroid: Audio.INTERRUPTION_MODE_ANDROID_DO_NOT_MIX,
 			shouldDuckAndroid: true,
 			staysActiveInBackground: true,
 			playThroughEarpieceAndroid: false,

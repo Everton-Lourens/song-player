@@ -259,7 +259,7 @@ const Index = ({ song, songs, dispatch }: any) => {
 			</View>
 			<View style={styles.actions}>
 				<TouchableOpacity style={styles.btn} onPress={handlePrev} disabled={actions?.prev}>
-					{/*// @ts-ignore*/}
+					{/*// @ts-ignore here*/}
 					<Icon name="skip-back" color="#C4C4C4" />
 				</TouchableOpacity>
 				<TouchableOpacity style={styles.btn} onPress={handlePlayAndPause} disabled={actions?.play}>
