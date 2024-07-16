@@ -11,7 +11,7 @@ const Container = ({
 			pagingEnabled: false,
 		},
 	},
-// @ts-ignore
+	// @ts-ignore
 	children,
 }) => {
 	return (

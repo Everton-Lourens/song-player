@@ -41,7 +41,7 @@ const Index = ({
 	const anim = (anim: any, toValue: any) => {
 		return Animated.timing(anim, {
 			toValue,
-			duration: 300, // AAAAAAAAAAAAAAAAA AQUI GAVETA
+			duration: 300,
 			useNativeDriver: true,
 		});
 	};

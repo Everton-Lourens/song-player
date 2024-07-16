@@ -18,7 +18,7 @@ const Index = ({ songs }: any) => {
 					options={{
 						left: {
 							// @ts-ignore
-							children: drawer ? <Icon name="x" color="#C4C4C4" /> : <Image source={require('@/assets/icons/hamburger.png')} resizeMode="contain" />,
+							children: drawer ? <Icon name="x" color="red" /> : <Image source={require('@/assets/icons/hamburger.png')} resizeMode="contain" />,
 							onPress: () => setDrawer(!drawer),
 						},
 						middle: {
