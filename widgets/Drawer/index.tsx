@@ -33,7 +33,7 @@ const Index = ({
 	children,
 }) => {
 	const { navigate } = useNavigation();
-	useAssets([require('../../assets/logo.png')]);
+	useAssets([require('@/assets/logo.png')]);
 	const screenScale = useRef(new Animated.Value(1)).current;
 	const screenLeft = useRef(new Animated.Value(0)).current;
 	const screenRadius = useRef(new Animated.Value(0)).current;
@@ -41,7 +41,7 @@ const Index = ({
 	const anim = (anim: any, toValue: any) => {
 		return Animated.timing(anim, {
 			toValue,
-			duration: 1000,
+			duration: 300, // AAAAAAAAAAAAAAAAA AQUI GAVETA
 			useNativeDriver: true,
 		});
 	};
@@ -58,7 +58,7 @@ const Index = ({
 			<LinearGradient style={styles.container} colors={['#C07037', '#C55234']}>
 				<View style={styles.menuContainer}>
 					<Animatable.View style={styles.header} animation={active ? 'slideInDown' : 'slideOutUp'} duration={2000}>
-						<Image style={styles.logo} source={require('../../assets/logo.png')} />
+						<Image style={styles.logo} source={require('@/assets/logo.png')} />
 						<Text style={styles.appName}>{appName}</Text>
 					</Animatable.View>
 					<View style={styles.middle}>
