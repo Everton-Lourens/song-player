@@ -18,7 +18,7 @@ const Index = ({ songs, playlists, navigation } : any) => {
 				<Header
 					options={{
 						left: {
-							// @ts-ignore 
+							// @ts-ignore
 							children: drawer ? <Icon name="x" color="red" /> : <Image source={require('@/assets/icons/hamburger.png')} resizeMode="contain" />,
 							onPress: () => setDrawer(!drawer),
 						},

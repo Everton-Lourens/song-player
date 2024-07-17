@@ -2,7 +2,7 @@ import React from 'react';
 import { ImageBackground, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 
-const Playlist = ({ style = {}, overlayStyle = {}, imageURL, title = 'Title', subtitle = `Subtitle`, onPress = () => {} }) => (
+const Playlist = ({ style = {}, overlayStyle = {}, imageURL, title = 'Title', subtitle = `Subtitle`, onPress = () => {} }: any) => (
 	<ImageBackground
 		style={[styles.coverArt, style]}
 		imageStyle={{

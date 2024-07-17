@@ -1,63 +1,4 @@
-/*
-import { getAllSongs } from "../playlist/index";
-
-interface Song {
-  id: number;
-  title: string;
-  author: string;
-  img: string;
-  uri: string;
-  durationMillis: number;
-}
-
-const initialSong: Song = {
-  id: 1,
-  title: 'Heartless',
-  author: 'The Weeknd',
-  img: 'https://res.cloudinary.com/jsxclan/image/upload/v1623984884/GitHub/Projects/Musicont/mock/images/heartless_du9yxe.jpg',
-  uri: 'https://res.cloudinary.com/jsxclan/video/upload/v1623987046/GitHub/Projects/Musicont/mock/audios/heartless_u7exot.mp3',
-  durationMillis: 249740,
-};
-
-const initialState = {
-  currentSong: {
-    playback: {},
-    soundObj: {},
-    detail: initialSong,
-    playbackStatus: {},
-  },
-  songs: [] as Song[],
-};
-
-const loadAllSongs = async () => {
-  const allSongs = await getAllSongs();
-  return allSongs;
-};
-
-(async () => {
-  const allSongs: any = await loadAllSongs();
-  initialState.songs = [initialSong, ...allSongs];
-})();
-
-export default initialState;
-*/
-
-
-export default {
-	currentSong: {
-		playback: {},
-		soundObj: {},
-		detail: {
-			id: 1,
-			title: 'Heartless',
-			author: 'The Weeknd',
-			img: 'https://res.cloudinary.com/jsxclan/image/upload/v1623984884/GitHub/Projects/Musicont/mock/images/heartless_du9yxe.jpg',
-			uri: 'https://res.cloudinary.com/jsxclan/video/upload/v1623987046/GitHub/Projects/Musicont/mock/audios/heartless_u7exot.mp3',
-			durationMillis: 249740,
-		},
-		playbackStatus: {},
-	},
-	songs: [
+export default [
         {
             id: 1,
             title: 'Heartless',
@@ -155,5 +96,3 @@ export default {
             durationMillis: 185417,
         },
     ]
-};
-
