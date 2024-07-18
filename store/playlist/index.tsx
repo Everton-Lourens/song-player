@@ -139,9 +139,9 @@ export async function getAllSongs2() {
 
 export async function getAllSongs() {
   const allMediaMP3 = await getMediaLibrary();
-  const songs = allMediaMP3.map(song => {
+  const songs = allMediaMP3.map((song, index) => {
     return {
-      id: song?.id,
+      id: index + 1,
       title: song?.filename.replace(/\.[^/.]+$/, '') || 'Unknown',
       author: 'Unknown',
       img: getRandomImg(),

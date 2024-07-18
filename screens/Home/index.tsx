@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Button, Dimensions, Image, ScrollView, StyleSheet, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useAssets } from 'expo-asset';
+import * as MediaLibrary from 'expo-media-library';
 
 import { Footer, Header, Section, Drawer } from '../../widgets';
 import { Icon } from '../../components';
@@ -13,9 +14,13 @@ const Index = () => {
 	const [drawer, setDrawer] = useState(false);
 	const [showMusicList, setShowMusicList] = useState(false);
 	const [allSongs, setAllSongs] = useState(null);
+	const [permissionResponse, requestPermission] = MediaLibrary.usePermissions();
 
 
 	const handlePress = async () => {
+		if (permissionResponse?.status !== 'granted') {
+			await requestPermission();
+		}
 		const allSongsTest: any = await getAllSongs();
 		setAllSongs(allSongsTest);
 		setShowMusicList(true);

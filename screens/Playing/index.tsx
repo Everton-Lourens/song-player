@@ -11,16 +11,41 @@ import { Header } from '../../widgets';
 import { Audio } from '../../hooks';
 import { DISPATCHES } from '../../constants';
 import { millisToMin, Storage } from '../../helpers';
+import { getAllSongs } from '@/store/playlist';
 
 const Index = ({ song, songs, dispatch, route: { params }, navigation: { goBack } }: any) => {
 	const stopBtnAnim = useRef(new Animated.Value(song?.soundObj?.isPlaying ? 1 : 0.3)).current;
 	const [isFav, setIsFav] = useState(false);
+	const [newList, setNewList] = useState(null);
+	const [shuffle, setShuffle] = useState(false);
 	const [actions, setActions] = useState({
 		prev: false,
 		play: false,
 		stop: false,
 		next: false,
 	});
+
+	const newListOfSongs = async () => {
+		if (!newList) {
+			const allSongs: any = await getAllSongs();
+			setNewList(allSongs);
+		}
+		if (shuffle) {
+			// @ts-ignore
+			const listLength = newList.length;
+			// Cria uma lista de IDs únicos
+			const uniqueIDs = Array.from({ length: listLength }, (_, index) => index);
+			// Embaralha a lista de IDs únicos
+			uniqueIDs.sort(() => Math.random() - 0.5);
+			// Atribui os IDs embaralhados aos itens da lista
+			// @ts-ignore
+			songs = [...newList].map((song: any, index) => ({ ...song, id: uniqueIDs[index] }));
+		} else {
+			songs = newList;
+		}
+		return;
+	}
+
 
 	const verifyFav = async () => {
 		const favs = await Storage.get('favourites', true);
@@ -200,11 +225,12 @@ const Index = ({ song, songs, dispatch, route: { params }, navigation: { goBack 
 	};
 
 	async function handleNext() {
+		await newListOfSongs();
 		_e({ next: true });
-
 		const currentIndex = songs.findIndex((i: any) => i.id === song?.detail?.id);
 		const nextIndex = currentIndex === songs.length - 1 ? 0 : currentIndex + 1;
 		const nextSong = songs[nextIndex];
+		console.log('@@@@@@@@ NEXT >> @@@@@@@@ ' + nextIndex);
 
 		return handleStop(() => {
 			Audio.play(
@@ -352,6 +378,14 @@ const Index = ({ song, songs, dispatch, route: { params }, navigation: { goBack 
 							{/*// @ts-ignore */}
 							<Icon name="skip-forward" color="#C4C4C4" />
 						</TouchableOpacity>
+
+						<TouchableOpacity onPress={() => { setShuffle(!shuffle) }} style={styles.shuffleBtn}>
+							{/*// @ts-ignore */}
+							<Icon
+								name={"shuffle"}
+								color={shuffle ? "#0079db" : "#C4C4C4"}
+							/>
+						</TouchableOpacity>
 					</View>
 				</View>
 			</ImageBackground>
@@ -367,6 +401,11 @@ const styles = StyleSheet.create({
 	container: {
 		flex: 1,
 		paddingTop: Constants.statusBarHeight,
+	},
+	shuffleBtn: {
+		position: 'absolute',
+		top: 19,
+		left: 250,
 	},
 	overlay: {
 		position: 'absolute',

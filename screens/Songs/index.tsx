@@ -1,15 +1,33 @@
 import React, { useState } from 'react';
-import { Dimensions, Image, StyleSheet, Text, View } from 'react-native';
+import { Button, Dimensions, Image, StyleSheet, Text, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useAssets } from 'expo-asset';
 import { connect } from 'react-redux';
-
+import * as MediaLibrary from 'expo-media-library';
 import { Header, Section, Drawer } from '../../widgets';
 import { Icon } from '../../components';
+import { getAllSongs } from '@/store/playlist';
 
 const Index = ({ songs }: any) => {
 	const [assets] = useAssets([require('@/assets/icons/hamburger.png'), require('@/assets/icons/search.png')]);
 	const [drawer, setDrawer] = useState(false);
+	const [permissionResponse, requestPermission] = MediaLibrary.usePermissions();
+	const [allSongs, setAllSongs] = useState(null);
+
+	const handlePress = async () => {
+		if (permissionResponse?.status !== 'granted') {
+			await requestPermission();
+		}
+		const allSongsTest: any = await getAllSongs();
+		setAllSongs(allSongsTest);
+		songs.concat(allSongsTest);
+		//console.log('@@@@@@@@@ KKKKKK 22  @@@@@@@@@@@');
+		//console.log(allSongsTest);
+		//console.log('@@@@@@@@@ KKKKKK 22  @@@@@@@@@@@');
+		//setShowMusicList(true);
+	};
+
+
 
 	return (
 		<Drawer active={drawer} current="songs" onItemPressed={() => setDrawer(false)}>
@@ -31,7 +49,18 @@ const Index = ({ songs }: any) => {
 					}}
 				/>
 				<View style={styles.sections}>
-					<Section.MusicList audios={songs} indicator={false} />
+					{/*<Section.MusicList audios={songs} indicator={false} />*/}
+					<>
+						<Button title="Carregar Lista de Músicas" onPress={handlePress} />
+
+						{/* show if true */}
+						{allSongs !== null && (
+							<Section.MusicList
+								audios={allSongs}
+								indicator={false}
+							/>
+						)}
+					</>
 				</View>
 			</SafeAreaView>
 		</Drawer>
