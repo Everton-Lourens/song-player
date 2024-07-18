@@ -6,7 +6,7 @@ import Icon from '../Icon';
 import * as Modal from '../../widgets/Modals';
 import { millisToMin } from '../../helpers';
 
-const MusicList = ({ style = {}, imageURL, title = 'Song Title', author = `Author Name`, duration = '03:22', onPlayPress = () => {}, moreOptions = [] }) => {
+const MusicList = ({ style = {}, imageURL, title = 'Song Title', author = `Author Name`, duration = '03:22', onPlayPress = () => {}, moreOptions = [] }: any) => {
 	const [moreOptionsModal, setMoreOptionsModal] = useState(false);
 
 	return (
