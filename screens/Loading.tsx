@@ -5,12 +5,11 @@ import { connect } from 'react-redux';
 
 import { DISPATCHES, SCREENS } from '../constants';
 import { Storage } from '../helpers';
-import musicData from '@/store/states/player';
 //import { Ads } from '../components';
 
 const { width, height } = Dimensions.get('screen');
 
-const Loading = ({ songs, dispatch, navigation: { replace } }: any) => {
+const Loading = ({ songs, dispatch, navigation: { replace } } : any) => {
 	const [assets] = useAssets([require('@/assets/splash.png')]);
 
 	const getStorage = () => {
@@ -43,9 +42,6 @@ const Loading = ({ songs, dispatch, navigation: { replace } }: any) => {
 	};
 
 	const init = async () => {
-		//console.log('@@@@@@@@@@@@@@@');
-		//console.log(musicData);
-		//console.log('@@@@@@@@@@@@@@@');
 		await getStorage();
 		replace(SCREENS.HOME);
 	};
