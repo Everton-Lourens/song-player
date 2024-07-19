@@ -8,18 +8,54 @@ import Icon from '../../components/Icon';
 import { DISPATCHES, SCREENS } from '@/src/constants';
 import { Audio } from '../../hooks';
 import { Storage } from '../../helpers';
+import { getAllSongs } from '@/src/store/playlist';
+import songDetail from '@/src/store/states/player';
 
 const { width } = Dimensions.get('screen');
 
 const Index = ({ song, songs, dispatch }: any) => {
 	const { navigate } = useNavigation();
 	const stopBtnAnim = useRef(new Animated.Value(song?.soundObj?.isPlaying ? 1 : 0.3)).current;
+	const [newList, setNewList] = useState(null);
+	const [shuffle, setShuffle] = useState(false);
 	const [actions, setActions] = useState({
 		prev: false,
 		play: false,
 		stop: false,
 		next: false,
 	});
+
+	const soundDetailRecovery = async () => {
+		if (!song?.detail) {
+			song.detail = await Storage.get('detail', true);
+		}
+	}
+
+	const newListOfSongs = async () => {
+		try {
+			await Storage.store('detail', (song?.detail || songDetail?.currentSong?.detail), true);
+			if (!newList) {
+				const allSongs: any = await getAllSongs();
+				songs = allSongs;
+				setNewList(allSongs);
+				setShuffle(await Storage.get('shuffle', false) === 'true' ? true : false);
+			}
+			if (shuffle) {
+				// @ts-ignore
+				const listLength = newList.length;
+				// Cria uma lista de IDs únicos
+				const uniqueIDs = Array.from({ length: listLength }, (_, index) => index);
+				// Embaralha a lista de IDs únicos
+				uniqueIDs.sort(() => Math.random() - 0.5);
+				// Atribui os IDs embaralhados aos itens da lista
+				// @ts-ignore
+				newList = [...newList].map((song: any, index) => ({ ...song, id: uniqueIDs[index] }));
+			}
+			return songs = newList ? newList : songs;
+		} catch (error: any) {
+			console.error(error);
+		}
+	}
 
 	const _e = (arg = {}) => {
 		setActions({
@@ -60,6 +96,7 @@ const Index = ({ song, songs, dispatch }: any) => {
 	};
 
 	const configAndPlay = (shouldPlay = false) => {
+		// ERROR INIT: Audio Error: "playbackObj" was set to an invalid value.
 		if (!song?.soundObj?.isLoaded) {
 			return Audio.configAndPlay(
 				song?.detail?.uri,
@@ -115,7 +152,7 @@ const Index = ({ song, songs, dispatch }: any) => {
 
 	const handleStop = async (after = () => { }) => {
 		_e({ stop: true });
-
+		await newListOfSongs();
 		if (song?.soundObj?.isLoaded) {
 			return Audio.stop(song?.playback)(() => {
 				dispatch({
@@ -136,12 +173,11 @@ const Index = ({ song, songs, dispatch }: any) => {
 
 	const handlePrev = async () => {
 		_e({ prev: true });
-
+		await newListOfSongs();
 		const currentIndex = songs.findIndex((i: any) => i.id === song?.detail?.id);
 		const prevIndex = currentIndex === 0 ? songs.length - 1 : currentIndex - 1;
 		const prevSong = songs[prevIndex];
 
-		console.log('AAAAAAAAA 1');
 		return handleStop(() => {
 			Audio.play(
 				song?.playback,
@@ -163,12 +199,17 @@ const Index = ({ song, songs, dispatch }: any) => {
 
 	async function handleNext() {
 		_e({ next: true });
-
+		await newListOfSongs();
 		const currentIndex = songs.findIndex((i: any) => i.id === song?.detail?.id);
 		const nextIndex = currentIndex === songs.length - 1 ? 0 : currentIndex + 1;
 		const nextSong = songs[nextIndex];
 
-		console.log('BBBBBBBBBB 2');
+		console.log('$$$$$$$$$$$$$$$$$$$$$$$$$$$$');
+		console.log(song);
+		console.log('____________');
+		console.log(song?.detail);
+		console.log('$$$$$$$$$$$$$$$$$$$$$$$$$$$$');
+
 		return handleStop(() => {
 			Audio.play(
 				song?.playback,
@@ -206,6 +247,8 @@ const Index = ({ song, songs, dispatch }: any) => {
 
 	useEffect(() => {
 		(async () => {
+			await soundDetailRecovery();
+			await newListOfSongs();
 			await Audio.init();
 			configAndPlay();
 		})();

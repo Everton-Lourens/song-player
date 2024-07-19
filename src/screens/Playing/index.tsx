@@ -12,6 +12,7 @@ import { Audio } from '../../hooks';
 import { DISPATCHES } from '@/src/constants';
 import { millisToMin, Storage } from '../../helpers';
 import { getAllSongs } from '@/src/store/playlist';
+import songDetail from '@/src/store/states/player';
 
 const Index = ({ song, songs, dispatch, route: { params }, navigation: { goBack } }: any) => {
 	const stopBtnAnim = useRef(new Animated.Value(song?.soundObj?.isPlaying ? 1 : 0.3)).current;
@@ -24,24 +25,40 @@ const Index = ({ song, songs, dispatch, route: { params }, navigation: { goBack 
 		stop: false,
 		next: false,
 	});
+	const configShuffle = async () => {
+		setShuffle(!shuffle);
+		await Storage.store('shuffle', shuffle ? 'true' : 'false', false);
+	}
+
+	const soundDetailRecovery = async () => {
+		if (!song?.detail) {
+			song.detail = await Storage.get('detail', true);
+		}
+	}
 
 	const newListOfSongs = async () => {
-		if (!newList) {
-			const allSongs: any = await getAllSongs();
-			setNewList(allSongs);
-		}
-		if (shuffle) {
-			// @ts-ignore
-			const listLength = newList.length;
-			// Cria uma lista de IDs únicos
-			const uniqueIDs = Array.from({ length: listLength }, (_, index) => index);
-			// Embaralha a lista de IDs únicos
-			uniqueIDs.sort(() => Math.random() - 0.5);
-			// Atribui os IDs embaralhados aos itens da lista
-			// @ts-ignore
-			songs = [...newList].map((song: any, index) => ({ ...song, id: uniqueIDs[index] }));
-		} else {
-			songs = newList;
+		try {
+			await Storage.store('detail', (song?.detail || songDetail?.currentSong?.detail), true);
+			if (!newList) {
+				const allSongs: any = await getAllSongs();
+				songs = allSongs;
+				setNewList(allSongs);
+				setShuffle(await Storage.get('shuffle', false) === 'true' ? true : false);
+			}
+			if (shuffle) {
+				// @ts-ignore
+				const listLength = newList.length;
+				// Cria uma lista de IDs únicos
+				const uniqueIDs = Array.from({ length: listLength }, (_, index) => index);
+				// Embaralha a lista de IDs únicos
+				uniqueIDs.sort(() => Math.random() - 0.5);
+				// Atribui os IDs embaralhados aos itens da lista
+				// @ts-ignore
+				return songs = [...newList].map((song: any, index) => ({ ...song, id: uniqueIDs[index] })); // shueffled list
+			}
+			return songs = newList ? newList : songs; // original list
+		} catch (error: any) {
+			console.error(error);
 		}
 	}
 
@@ -123,25 +140,13 @@ const Index = ({ song, songs, dispatch, route: { params }, navigation: { goBack 
 	};
 
 	const configAndPlay = (shouldPlay = false) => {
-		//console.log('kk @@@@@@@@@@@@@@@ kk');
+		console.log('@@@@@@@@@@@@@@@@@@@@@@');
+		console.log('<<<configAndPlay>>>');
 		console.log(song?.detail?.uri);
-		//console.log('kk @@@@@@@@@@@@@@@ kk');
-
-		const jsonObject = {
-			detail: {
-			  author: "Unknown",
-			  durationMillis: 1071,
-			  id: 5,
-			  img: "https://static.vecteezy.com/ti/fotos-gratis/p1/27446957-melodia-silhueta-conceito-gratis-foto.jpg",
-			  title: "toque whatsapp PC",
-			  uri: "file:///storage/emulated/0/Download/toque%20whatsapp%20PC.mp3"
-			}
-		  };
-		  
-
+		console.log('@@@@@@@@@@@@@@@@@@@@@@');
 		if (!song?.soundObj?.isLoaded) {
 			return Audio.configAndPlay(
-				song?.detail?.uri,
+				song?.detail?.uri, // URI FAIL
 				shouldPlay
 			)((playback, soundObj) => {
 				dispatch({
@@ -220,7 +225,6 @@ const Index = ({ song, songs, dispatch, route: { params }, navigation: { goBack 
 		const prevIndex = currentIndex === 0 ? songs.length - 1 : currentIndex - 1;
 		const prevSong = songs[prevIndex];
 
-		console.log('DDDDDDDDDDDD 4');
 		return handleStop(() => {
 			Audio.play(
 				song?.playback,
@@ -246,9 +250,8 @@ const Index = ({ song, songs, dispatch, route: { params }, navigation: { goBack 
 		const currentIndex = songs.findIndex((i: any) => i.id === song?.detail?.id);
 		const nextIndex = currentIndex === songs.length - 1 ? 0 : currentIndex + 1;
 		const nextSong = songs[nextIndex];
-		console.log('@@@@@@@@ NEXT >> @@@@@@@@ ' + nextIndex);
+		console.log('NEXT >> ' + nextIndex);
 
-		console.log('EEEEEEEEEEEE 5');
 		return handleStop(() => {
 			Audio.play(
 				song?.playback,
@@ -300,7 +303,7 @@ const Index = ({ song, songs, dispatch, route: { params }, navigation: { goBack 
 
 	useEffect(() => {
 		(async () => {
-			console.log('await newListOfSongs();');
+			await soundDetailRecovery();
 			await newListOfSongs();
 			await Audio.init();
 			configAndPlay();
@@ -313,8 +316,6 @@ const Index = ({ song, songs, dispatch, route: { params }, navigation: { goBack 
 
 	useEffect(() => {
 		if (params?.forcePlay && params?.song?.uri !== song?.detail?.uri) {
-			console.log('FFFFFFFFF 6');
-
 
 			handleStop(() => {
 				Audio.play(
@@ -401,7 +402,7 @@ const Index = ({ song, songs, dispatch, route: { params }, navigation: { goBack 
 							<Icon name="skip-forward" color="#C4C4C4" />
 						</TouchableOpacity>
 
-						<TouchableOpacity onPress={() => { setShuffle(!shuffle) }} style={styles.shuffleBtn}>
+						<TouchableOpacity onPress={configShuffle} style={styles.shuffleBtn}>
 							{/*// @ts-ignore */}
 							<Icon
 								name={"shuffle"}
