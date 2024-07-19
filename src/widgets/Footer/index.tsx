@@ -221,18 +221,7 @@ const Index = ({ song, songs, dispatch }: any) => {
 		const nextIndex = currentIndex === songs.length - 1 ? 0 : currentIndex + 1;
 		const randomIndex = Math.floor(Math.random() * songs.length);
 		const nextSong = songs[shuffle ? randomIndex : nextIndex];
-		/*
-		console.log(song?.detail.title + ' <<>> ' + song?.detail?.id);
-		console.log('currentIndex', currentIndex);
-		let nextIndex = currentIndex === songs.length - 1 ? 0 : currentIndex + 1;
-		nextIndex === song?.detail?.id ? nextIndex++ : nextIndex; 
-		console.log('$$$$$$$$$$$$$$$$$$$$', nextIndex);
-		const nextSong = songs[nextIndex];
-		( async () => {
-			await Storage.store('detail', (song?.detail || songDetail?.currentSong?.detail), true);
-		})();
-		*/
-
+		
 		return handleStop(() => {
 			Audio.play(
 				song?.playback,

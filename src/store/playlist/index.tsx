@@ -140,6 +140,9 @@ export async function getAllSongs2() {
 export async function getAllSongs() {
   const allMediaMP3 = await getMediaLibrary();
   const songs = allMediaMP3.map((song, index) => {
+    if (song?.duration && song.duration * 1000 < 5000) {
+      return null;
+    }
     return {
       id: index + 1,
       title: song?.filename.replace(/\.[^/.]+$/, '') || 'Sem Título',
@@ -148,7 +151,7 @@ export async function getAllSongs() {
       uri: song?.uri,
       durationMillis: (song?.duration * 1000) || 0,
     }
-  });
+  }).filter(Boolean);
   return songs;
 
   function getRandomImg() {

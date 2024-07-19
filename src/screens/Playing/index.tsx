@@ -18,6 +18,7 @@ const Index = ({ song, songs, dispatch, route: { params }, navigation: { goBack 
 	const stopBtnAnim = useRef(new Animated.Value(song?.soundObj?.isPlaying ? 1 : 0.3)).current;
 	const [isFav, setIsFav] = useState(false);
 	const [newList, setNewList] = useState(null);
+	const [count, setCount] = useState(0);
 	const [shuffle, setShuffle] = useState<boolean>(false);
 	const [actions, setActions] = useState({
 		prev: false,
@@ -260,24 +261,10 @@ const Index = ({ song, songs, dispatch, route: { params }, navigation: { goBack 
 
 	async function handleNext() {
 		_e({ next: true });
-		//await newListOfSongs();
 		const currentIndex = songs.findIndex((i: any) => i.id === song?.detail?.id);
 		const nextIndex = currentIndex === songs.length - 1 ? 0 : currentIndex + 1;
 		const randomIndex = Math.floor(Math.random() * songs.length);
 		const nextSong = songs[shuffle ? randomIndex : nextIndex];
-		//console.log('ATUAL: ', shuffle ? randomIndex : nextIndex, 'proximo: > ', shuffle ? randomIndex + 1 : nextIndex + 1);
-		/*
-				const currentIndexDetail = songs.findIndex((i: any) => i.id === song?.detail?.id);
-		console.log('currentIndex: ', currentIndexDetail);
-		const nextIndex = currentIndexDetail === songs.length - 1 ? 0 : (currentIndex === currentIndexDetail ? currentIndex + 2 : currentIndex + 1);
-		console.log('nextIndex: ', nextIndex);
-		console.log('(currentIndex === currentIndexDetail ? currentIndex + 2 : currentIndex + 1): ', (currentIndex === currentIndexDetail ? currentIndex + 2 : currentIndex + 1));
-		const randomIndex = Math.floor(Math.random() * songs.length);
-		console.log('randomIndex: ', randomIndex);
-		setCurrentIndex(shuffle ? randomIndex : nextIndex);
-		const nextSong = songs[shuffle ? randomIndex : nextIndex];
-		console.log('ATUAL: ', shuffle ? randomIndex : nextIndex);
-		*/
 
 		return handleStop(() => {
 			Audio.play(
@@ -291,11 +278,10 @@ const Index = ({ song, songs, dispatch, route: { params }, navigation: { goBack 
 						detail: nextSong,
 					},
 				});
+				addToRecentlyPlayed(nextIndex);
 				(async () => {
 					await Storage.store('detail', (song?.detail || songDetail?.currentSong?.detail), true);
 				})();
-
-				addToRecentlyPlayed(nextIndex);
 				_e({ next: false });
 			})(onPlaybackStatusUpdate as any);
 		});
