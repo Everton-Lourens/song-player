@@ -1,8 +1,8 @@
 import React from 'react';
 import { Provider as RRProvider } from 'react-redux';
 
-import store from '@/store';
-import Screens from '@/screens';
+import store from '@/src/store';
+import Screens from '@/src/screens';
 
 export default function App() {
 	return (
