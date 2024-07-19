@@ -142,8 +142,8 @@ export async function getAllSongs() {
   const songs = allMediaMP3.map((song, index) => {
     return {
       id: index + 1,
-      title: song?.filename.replace(/\.[^/.]+$/, '') || 'Unknown',
-      author: 'Unknown',
+      title: song?.filename.replace(/\.[^/.]+$/, '') || 'Sem Título',
+      author: 'Desconhecido(a)',
       img: getRandomImg(),
       uri: song?.uri,
       durationMillis: (song?.duration * 1000) || 0,

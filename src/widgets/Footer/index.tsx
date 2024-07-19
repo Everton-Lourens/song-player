@@ -31,14 +31,13 @@ const Index = ({ song, songs, dispatch }: any) => {
 		}
 	}
 
-	const newListOfSongs = async () => {
+	const newListOfSongs_OLD = async () => {
 		try {
-			await Storage.store('detail', (song?.detail || songDetail?.currentSong?.detail), true);
 			if (!newList) {
 				const allSongs: any = await getAllSongs();
 				songs = allSongs;
 				setNewList(allSongs);
-				setShuffle(await Storage.get('shuffle', false) === 'true' ? true : false);
+				setShuffle(await Storage.get('shuffle', false) == 'true' ? true : false);
 			}
 			if (shuffle) {
 				// @ts-ignore
@@ -49,12 +48,31 @@ const Index = ({ song, songs, dispatch }: any) => {
 				uniqueIDs.sort(() => Math.random() - 0.5);
 				// Atribui os IDs embaralhados aos itens da lista
 				// @ts-ignore
-				newList = [...newList].map((song: any, index) => ({ ...song, id: uniqueIDs[index] }));
+				return songs = [...newList].map((song: any, index) => ({ ...song, id: uniqueIDs[index] })); // shueffled list
 			}
-			return songs = newList ? newList : songs;
+			return songs = newList ? newList : songs; // original list
 		} catch (error: any) {
 			console.error(error);
 		}
+	}
+
+	const newListOfSongs = async () => {
+		/*
+		try {
+									setShuffle(await Storage.get('shuffle', false) == 'true' ? true : false); 
+			if (shuffle) {
+				// @ts-ignore
+				const listLength = songs.length;
+				const uniqueIDs = Array.from({ length: listLength }, (_, index) => index);
+				uniqueIDs.sort(() => Math.random() - 0.5);
+				// @ts-ignore
+				return songs = [...songs].map((song: any, index) => ({ ...song, id: uniqueIDs[index] })); // shueffled list
+			}
+			return songs = songs ? songs : songs; // original list
+		} catch (error: any) {
+			console.error(error);
+		}
+			*/
 	}
 
 	const _e = (arg = {}) => {
@@ -199,16 +217,21 @@ const Index = ({ song, songs, dispatch }: any) => {
 
 	async function handleNext() {
 		_e({ next: true });
-		await newListOfSongs();
 		const currentIndex = songs.findIndex((i: any) => i.id === song?.detail?.id);
 		const nextIndex = currentIndex === songs.length - 1 ? 0 : currentIndex + 1;
+		const randomIndex = Math.floor(Math.random() * songs.length);
+		const nextSong = songs[shuffle ? randomIndex : nextIndex];
+		/*
+		console.log(song?.detail.title + ' <<>> ' + song?.detail?.id);
+		console.log('currentIndex', currentIndex);
+		let nextIndex = currentIndex === songs.length - 1 ? 0 : currentIndex + 1;
+		nextIndex === song?.detail?.id ? nextIndex++ : nextIndex; 
+		console.log('$$$$$$$$$$$$$$$$$$$$', nextIndex);
 		const nextSong = songs[nextIndex];
-
-		console.log('$$$$$$$$$$$$$$$$$$$$$$$$$$$$');
-		console.log(song);
-		console.log('____________');
-		console.log(song?.detail);
-		console.log('$$$$$$$$$$$$$$$$$$$$$$$$$$$$');
+		( async () => {
+			await Storage.store('detail', (song?.detail || songDetail?.currentSong?.detail), true);
+		})();
+		*/
 
 		return handleStop(() => {
 			Audio.play(
@@ -222,6 +245,9 @@ const Index = ({ song, songs, dispatch }: any) => {
 						detail: nextSong,
 					},
 				});
+				(async () => {
+					await Storage.store('detail', (song?.detail || songDetail?.currentSong?.detail), true);
+				})();
 
 				addToRecentlyPlayed(nextIndex);
 				_e({ next: false });
@@ -247,6 +273,7 @@ const Index = ({ song, songs, dispatch }: any) => {
 
 	useEffect(() => {
 		(async () => {
+			setShuffle(await Storage.get('shuffle', false) == 'true' ? true : false);
 			await soundDetailRecovery();
 			await newListOfSongs();
 			await Audio.init();

@@ -18,7 +18,7 @@ const Index = ({ song, songs, dispatch, route: { params }, navigation: { goBack 
 	const stopBtnAnim = useRef(new Animated.Value(song?.soundObj?.isPlaying ? 1 : 0.3)).current;
 	const [isFav, setIsFav] = useState(false);
 	const [newList, setNewList] = useState(null);
-	const [shuffle, setShuffle] = useState(false);
+	const [shuffle, setShuffle] = useState<boolean>(false);
 	const [actions, setActions] = useState({
 		prev: false,
 		play: false,
@@ -26,8 +26,8 @@ const Index = ({ song, songs, dispatch, route: { params }, navigation: { goBack 
 		next: false,
 	});
 	const configShuffle = async () => {
+		await Storage.store('shuffle', String(!shuffle), false);
 		setShuffle(!shuffle);
-		await Storage.store('shuffle', shuffle ? 'true' : 'false', false);
 	}
 
 	const soundDetailRecovery = async () => {
@@ -36,14 +36,13 @@ const Index = ({ song, songs, dispatch, route: { params }, navigation: { goBack 
 		}
 	}
 
-	const newListOfSongs = async () => {
+	const newListOfSongs_OLD = async () => {
 		try {
-			await Storage.store('detail', (song?.detail || songDetail?.currentSong?.detail), true);
 			if (!newList) {
 				const allSongs: any = await getAllSongs();
 				songs = allSongs;
 				setNewList(allSongs);
-				setShuffle(await Storage.get('shuffle', false) === 'true' ? true : false);
+				setShuffle(await Storage.get('shuffle', false) == 'true' ? true : false);
 			}
 			if (shuffle) {
 				// @ts-ignore
@@ -60,6 +59,25 @@ const Index = ({ song, songs, dispatch, route: { params }, navigation: { goBack 
 		} catch (error: any) {
 			console.error(error);
 		}
+	}
+
+	const newListOfSongs = async () => {
+		/*
+		try {
+			setShuffle(await Storage.get('shuffle', false) == 'true' ? true : false); 
+			if (shuffle) {
+				// @ts-ignore
+				const listLength = songs.length;
+				const uniqueIDs = Array.from({ length: listLength }, (_, index) => index);
+				uniqueIDs.sort(() => Math.random() - 0.5);
+				// @ts-ignore
+				return songs = [...songs].map((song: any, index) => ({ ...song, id: uniqueIDs[index] })); // shueffled list
+			}
+			return songs = songs ? songs : songs; // original list
+		} catch (error: any) {
+			console.error(error);
+		}
+			*/
 	}
 
 
@@ -140,10 +158,6 @@ const Index = ({ song, songs, dispatch, route: { params }, navigation: { goBack 
 	};
 
 	const configAndPlay = (shouldPlay = false) => {
-		console.log('@@@@@@@@@@@@@@@@@@@@@@');
-		console.log('<<<configAndPlay>>>');
-		console.log(song?.detail?.uri);
-		console.log('@@@@@@@@@@@@@@@@@@@@@@');
 		if (!song?.soundObj?.isLoaded) {
 			return Audio.configAndPlay(
 				song?.detail?.uri, // URI FAIL
@@ -246,11 +260,24 @@ const Index = ({ song, songs, dispatch, route: { params }, navigation: { goBack 
 
 	async function handleNext() {
 		_e({ next: true });
-		await newListOfSongs();
+		//await newListOfSongs();
 		const currentIndex = songs.findIndex((i: any) => i.id === song?.detail?.id);
 		const nextIndex = currentIndex === songs.length - 1 ? 0 : currentIndex + 1;
-		const nextSong = songs[nextIndex];
-		console.log('NEXT >> ' + nextIndex);
+		const randomIndex = Math.floor(Math.random() * songs.length);
+		const nextSong = songs[shuffle ? randomIndex : nextIndex];
+		//console.log('ATUAL: ', shuffle ? randomIndex : nextIndex, 'proximo: > ', shuffle ? randomIndex + 1 : nextIndex + 1);
+		/*
+				const currentIndexDetail = songs.findIndex((i: any) => i.id === song?.detail?.id);
+		console.log('currentIndex: ', currentIndexDetail);
+		const nextIndex = currentIndexDetail === songs.length - 1 ? 0 : (currentIndex === currentIndexDetail ? currentIndex + 2 : currentIndex + 1);
+		console.log('nextIndex: ', nextIndex);
+		console.log('(currentIndex === currentIndexDetail ? currentIndex + 2 : currentIndex + 1): ', (currentIndex === currentIndexDetail ? currentIndex + 2 : currentIndex + 1));
+		const randomIndex = Math.floor(Math.random() * songs.length);
+		console.log('randomIndex: ', randomIndex);
+		setCurrentIndex(shuffle ? randomIndex : nextIndex);
+		const nextSong = songs[shuffle ? randomIndex : nextIndex];
+		console.log('ATUAL: ', shuffle ? randomIndex : nextIndex);
+		*/
 
 		return handleStop(() => {
 			Audio.play(
@@ -264,6 +291,9 @@ const Index = ({ song, songs, dispatch, route: { params }, navigation: { goBack 
 						detail: nextSong,
 					},
 				});
+				(async () => {
+					await Storage.store('detail', (song?.detail || songDetail?.currentSong?.detail), true);
+				})();
 
 				addToRecentlyPlayed(nextIndex);
 				_e({ next: false });
@@ -303,6 +333,7 @@ const Index = ({ song, songs, dispatch, route: { params }, navigation: { goBack 
 
 	useEffect(() => {
 		(async () => {
+			setShuffle(await Storage.get('shuffle', false) == 'true' ? true : false);
 			await soundDetailRecovery();
 			await newListOfSongs();
 			await Audio.init();

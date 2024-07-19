@@ -1,7 +1,7 @@
 import { player as playerState } from '../states';
 import { DISPATCHES } from '@/src/constants';
 
-const player = (state = playerState, { type = '' as string, payload = {} }) => {
+const player = (state = playerState, { type = '' as string, payload = {} }: any) => {
 	switch (type) {
 		case DISPATCHES.SET_CURRENT_SONG:
 			const config = {
@@ -11,7 +11,9 @@ const player = (state = playerState, { type = '' as string, payload = {} }) => {
 				playbackStatus: 'current',
 				...payload,
 			};
-
+			if (payload?.songs) {
+				state.songs = payload?.songs;
+			}
 			return {
 				...state,
 				currentSong: {

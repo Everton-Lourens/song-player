@@ -14,19 +14,6 @@ const Index = ({ songs }: any) => {
 	const [permissionResponse, requestPermission] = MediaLibrary.usePermissions();
 	const [allSongs, setAllSongs] = useState(null);
 
-	const handlePress = async () => {
-		if (permissionResponse?.status !== 'granted') {
-			await requestPermission();
-		}
-		const allSongsTest: any = await getAllSongs();
-		setAllSongs(allSongsTest);
-		songs.concat(allSongsTest);
-		//console.log('@@@@@@@@@ KKKKKK 22  @@@@@@@@@@@');
-		//console.log(allSongsTest);
-		//console.log('@@@@@@@@@ KKKKKK 22  @@@@@@@@@@@');
-		//setShowMusicList(true);
-	};
-
 
 
 	return (
@@ -49,18 +36,7 @@ const Index = ({ songs }: any) => {
 					}}
 				/>
 				<View style={styles.sections}>
-					{/*<Section.MusicList audios={songs} indicator={false} />*/}
-					<>
-						<Button title="Carregar Lista de Músicas" onPress={handlePress} />
-
-						{/* show if true */}
-						{allSongs !== null && (
-							<Section.MusicList
-								audios={allSongs}
-								indicator={false}
-							/>
-						)}
-					</>
+					{<Section.MusicList audios={songs} indicator={false} />}
 				</View>
 			</SafeAreaView>
 		</Drawer>

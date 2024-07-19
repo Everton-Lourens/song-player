@@ -5,11 +5,12 @@ import { connect } from 'react-redux';
 
 import { DISPATCHES, SCREENS } from '../constants';
 import { Storage } from '../helpers';
+import { getAllSongs } from '../store/playlist';
 //import { Ads } from '../components';
 
 const { width, height } = Dimensions.get('screen');
 
-const Loading = ({ songs, dispatch, navigation: { replace } } : any) => {
+const Loading = ({ songs, dispatch, navigation: { replace } }: any) => {
 	const [assets] = useAssets([require('@/src/assets/splash.png')]);
 
 	const getStorage = () => {
@@ -27,11 +28,15 @@ const Loading = ({ songs, dispatch, navigation: { replace } } : any) => {
 				},
 			});
 
+			const allSongs = await getAllSongs();
+			songs = allSongs.length > 0 ? allSongs : songs;
+
 			if (recents && recents.length > 0) {
 				dispatch({
 					type: DISPATCHES.SET_CURRENT_SONG,
 					payload: {
 						detail: songs[recents[0]],
+						songs: allSongs,
 					},
 				});
 			}
