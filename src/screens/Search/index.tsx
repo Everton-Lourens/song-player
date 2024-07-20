@@ -30,7 +30,7 @@ const Index = ({ songs }: any) => {
 
 	return (
 		<>
-			<StatusBar style="dark" />
+			<StatusBar style="light" backgroundColor='black' />
 			<TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
 				<SafeAreaView style={styles.container}>
 					<View style={styles.header}>

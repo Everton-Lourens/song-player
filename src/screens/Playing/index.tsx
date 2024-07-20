@@ -363,7 +363,7 @@ const Index = ({ song, songs, dispatch, route: { params }, navigation: { goBack 
 
 	return (
 		<>
-			<StatusBar style="light" />
+			<StatusBar style="light" backgroundColor='black' />
 			<ImageBackground style={styles.container} source={{ uri: song?.detail?.img }} blurRadius={10} resizeMode="cover">
 				<View style={[StyleSheet.absoluteFill, styles.overlay]} />
 				<Header

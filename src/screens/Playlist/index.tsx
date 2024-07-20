@@ -51,7 +51,7 @@ const Index = ({ songs, playlists, dispatch, route: { params }, navigation: { go
 
 	return playlist && Object.keys(playlist).length > 0 ? (
 		<>
-			<StatusBar style="light" />
+			<StatusBar style="light" backgroundColor='black' />
 			<View style={{ flex: 1 }}>
 				<ImageBackground style={styles.header} source={{ uri: songs[playlist?.songs[0]].img }}>
 					<LinearGradient style={styles.overlay} colors={['rgba(0, 0, 0, 1)', 'transparent']} start={[0, 1]} end={[0, 0]} />

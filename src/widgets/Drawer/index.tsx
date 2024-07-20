@@ -54,7 +54,7 @@ const Index = ({
 
 	return (
 		<>
-			<StatusBar style={active ? 'light' : 'dark'} />
+			<StatusBar style={active ? 'light' : 'dark'} backgroundColor={active ? 'black' : 'white'} />
 			<LinearGradient style={styles.container} colors={['#C07037', '#C55234']}>
 				<View style={styles.menuContainer}>
 					<Animatable.View style={styles.header} animation={active ? 'slideInDown' : 'slideOutUp'} duration={2000}>
@@ -82,7 +82,7 @@ const Index = ({
 						))}
 					</View>
 					<Animatable.View style={styles.bottom} animation={active ? 'slideInUp' : 'slideOutDown'} duration={2000}>
-					<Animatable.View animation="pulse" easing="ease-out" iterationCount="infinite">
+						<Animatable.View animation="pulse" easing="ease-out" iterationCount="infinite">
 							<TouchableOpacity style={styles.bottomBtn} activeOpacity={0.7} onPress={() => Linking.openURL('https://www.instagram.com/everton_lourens/')}>
 								<Text style={styles.bottomBtnTxt}>Meu instagram</Text>
 							</TouchableOpacity>

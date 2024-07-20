@@ -2,7 +2,7 @@ function getSongs() {
 	return [
 		{
 			id: 1,
-			title: 'INIT',
+			title: 'Heartless',
 			author: 'The Weeknd',
 			img: 'https://res.cloudinary.com/jsxclan/image/upload/v1623984884/GitHub/Projects/Musicont/mock/images/heartless_du9yxe.jpg',
 			uri: 'https://res.cloudinary.com/jsxclan/video/upload/v1623987046/GitHub/Projects/Musicont/mock/audios/heartless_u7exot.mp3',
@@ -16,7 +16,6 @@ function getSongs() {
 			uri: 'https://res.cloudinary.com/jsxclan/video/upload/v1623986838/GitHub/Projects/Musicont/mock/audios/peaches_dzluia.mp3',
 			durationMillis: 197800,
 		},
-		/*
 		{
 			id: 3,
 			title: 'Therefore I Am',
@@ -97,7 +96,6 @@ function getSongs() {
 			uri: 'https://res.cloudinary.com/jsxclan/video/upload/v1623895070/GitHub/Projects/Musicont/mock/audios/luxuria_nnp3ou.mp3',
 			durationMillis: 185417,
 		},
-		*/
 	]
 }
 //const musicData = async () => {
@@ -107,7 +105,7 @@ const musicData = {
 		soundObj: {},
 		detail: {
 			id: 1,
-			title: 'INIT',
+			title: 'Heartless',
 			author: 'The Weeknd',
 			img: 'https://res.cloudinary.com/jsxclan/image/upload/v1623984884/GitHub/Projects/Musicont/mock/images/heartless_du9yxe.jpg',
 			uri: 'https://res.cloudinary.com/jsxclan/video/upload/v1623987046/GitHub/Projects/Musicont/mock/audios/heartless_u7exot.mp3',
@@ -115,7 +113,7 @@ const musicData = {
 		},
 		playbackStatus: {},
 	},
-	songs:  getSongs()
+	songs: getSongs()
 };
 
 export default musicData;

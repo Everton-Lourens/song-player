@@ -396,7 +396,7 @@ const styles = StyleSheet.create({
 		color: '#555555',
 		fontSize: 20,
 		fontWeight: 'bold',
-		letterSpacing: 1.5,
+		letterSpacing: 0.7,
 	},
 	songArtist: {
 		color: '#555555',

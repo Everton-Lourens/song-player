@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Alert, Button, Dimensions, Image, ScrollView, StyleSheet, View } from 'react-native';
+import { Alert, Dimensions, Image, ScrollView, StyleSheet, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useAssets } from 'expo-asset';
 import { Storage } from '@/src/helpers';
@@ -20,7 +20,7 @@ const Index = () => {
 			const initializedSong = await Storage.get('initialized', true);
 			if (!initializedSong) {
 				await Storage.store('initialized', 'true', false);
-				Alert.alert('Carregando...', 'Carregando suas músicas.', [{ text: 'OK', onPress: async () => await Updates.reloadAsync() }]);
+				Alert.alert('Carregando músicas...', 'Isso não vai demorar.', [{ text: 'OK', onPress: async () => await Updates.reloadAsync() }]);
 			}
 		} catch (error) {
 			console.log(error);
