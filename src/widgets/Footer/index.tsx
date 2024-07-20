@@ -8,8 +8,9 @@ import Icon from '../../components/Icon';
 import { DISPATCHES, SCREENS } from '@/src/constants';
 import { Audio } from '../../hooks';
 import { Storage } from '../../helpers';
-import { getAllSongs } from '@/src/store/playlist';
+import { getAllSongs } from '@/src/store/config';
 import songDetail from '@/src/store/states/player';
+import { PlayerControls } from '@/src/components/PlayerControls';
 
 const { width } = Dimensions.get('screen');
 
@@ -281,6 +282,7 @@ const Index = ({ song, songs, dispatch }: any) => {
 
 	return (
 		<View style={styles.container}>
+
 			<View style={styles.tracker}>
 				<View
 					style={{
@@ -320,31 +322,34 @@ const Index = ({ song, songs, dispatch }: any) => {
 				</TouchableWithoutFeedback>
 			</View>
 			<View style={styles.content}>
-				<Text style={styles.songTitle} numberOfLines={1}>
+				<Text style={styles.songTitle} numberOfLines={song?.detail?.author ? 1 : 2}>
 					{song?.detail?.title}
 				</Text>
-				<Text style={styles.songArtist} numberOfLines={1}>
-					{song?.detail?.author}
-				</Text>
+				{song?.detail?.author ?
+					<Text style={styles.songArtist} numberOfLines={1}>
+						{song?.detail?.author}
+					</Text> : null}
 			</View>
 			<View style={styles.actions}>
+				{/*<PlayerControls style={{ marginTop: 40 }} />*/}
 				<TouchableOpacity style={styles.btn} onPress={handlePrev} disabled={actions?.prev}>
 					{/*// @ts-ignore*/}
 					<Icon name="skip-back" color="#C4C4C4" />
 				</TouchableOpacity>
 				<TouchableOpacity style={styles.btn} onPress={handlePlayAndPause} disabled={actions?.play}>
 					{/*// @ts-ignore*/}
-					<Icon name={song?.soundObj?.isPlaying ? `pause` : `play`} color={song?.soundObj?.isPlaying ? `#C07037` : `#C4C4C4`} />
+					<Icon size={40} name={song?.soundObj?.isPlaying ? `pause` : `play`} color={song?.soundObj?.isPlaying ? `#C07037` : `white`} />
 				</TouchableOpacity>
-				<TouchableOpacity style={styles.btn} onPress={() => (song?.soundObj?.isPlaying ? handleStop(() => { }) : () => { })} disabled={actions?.stop}>
-					<Animated.View style={{ opacity: stopBtnAnim }}>
-						{/*// @ts-ignore*/}
-						<Icon family="Ionicons" name="stop-outline" color="#C4C4C4" />
-					</Animated.View>
-				</TouchableOpacity>
+				{/*<TouchableOpacity style={styles.btn} onPress={() => (song?.soundObj?.isPlaying ? handleStop(() => { }) : () => { })} disabled={actions?.stop}>*/}
+				{/*<Animated.View style={{ opacity: stopBtnAnim }}>*/}
+				{/*// @ts-ignore*/}
+				{/*<Icon family="Ionicons" name="stop-outline" color="white" />*/}
+				{/*</Animated.View>*/}
+				{/*</TouchableOpacity>*/}
+
 				<TouchableOpacity style={styles.btn} onPress={handleNext} disabled={actions?.next}>
 					{/*// @ts-ignore*/}
-					<Icon name="skip-forward" color="#C4C4C4" />
+					<Icon size={30} name="skip-forward" color="white" />
 				</TouchableOpacity>
 			</View>
 		</View>
@@ -357,11 +362,11 @@ export default connect(mapStateToProps, mapDispatchToProps)(memo(Index));
 
 const styles = StyleSheet.create({
 	container: {
-		backgroundColor: '#FFF',
+		backgroundColor: 'rgba(0, 0, 0, .4)', // 'gray', // '#FFF',
 		flexDirection: 'row',
 		justifyContent: 'space-between',
 		width,
-		height: 80,
+		height: 100,
 		borderBottomLeftRadius: 15,
 		borderBottomRightRadius: 15,
 	},
@@ -380,7 +385,7 @@ const styles = StyleSheet.create({
 		position: 'absolute',
 		width: 135,
 		height: 135,
-		left: -20,
+		left: -30,
 		bottom: -20,
 	},
 	coverArt: {
@@ -390,16 +395,16 @@ const styles = StyleSheet.create({
 	content: {
 		flex: 1,
 		justifyContent: 'center',
-		marginLeft: 20,
+		marginLeft: 5,
 	},
 	songTitle: {
-		color: '#555555',
+		color: 'white', // '#555555',
 		fontSize: 20,
 		fontWeight: 'bold',
 		letterSpacing: 0.7,
 	},
 	songArtist: {
-		color: '#555555',
+		color: 'white', // '#555555',
 	},
 	actions: {
 		flexBasis: 150,

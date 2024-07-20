@@ -3,7 +3,7 @@ import { ScrollView, StyleSheet, Text, View } from 'react-native';
 
 const Container = ({
 	style = {},
-	title = 'Section',
+	title = 'Sessão',
 	options = {
 		scrollView: {
 			use: true,
@@ -32,8 +32,9 @@ export default Container;
 
 const styles = StyleSheet.create({
 	title: {
-		color: '#444444',
+		color: 'white', // color: '#444444',
 		fontSize: 20,
+		fontWeight: 'bold',
 		letterSpacing: 1,
 		marginBottom: 10,
 		marginLeft: 20,

@@ -11,7 +11,7 @@ import { Header } from '../../widgets';
 import { Audio } from '../../hooks';
 import { DISPATCHES } from '@/src/constants';
 import { millisToMin, Storage } from '../../helpers';
-import { getAllSongs } from '@/src/store/playlist';
+import { getAllSongs } from '@/src/store/config';
 import songDetail from '@/src/store/states/player';
 
 const Index = ({ song, songs, dispatch, route: { params }, navigation: { goBack } }: any) => {

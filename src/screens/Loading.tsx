@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 
 import { DISPATCHES, SCREENS } from '../constants';
 import { Storage } from '../helpers';
-import { getAllSongs } from '../store/playlist';
+import { getAllSongs } from '../store/config';
 //import { Ads } from '../components';
 
 const { width, height } = Dimensions.get('screen');

@@ -52,13 +52,13 @@ const styles = StyleSheet.create({
 		marginTop: 10,
 	},
 	title: {
-		color: '#555555',
+		color: 'white', // color: '#555555',
 		fontSize: 15,
 		fontWeight: '900',
 		letterSpacing: 1,
 	},
 	author: {
-		color: '#555555',
-		fontSize: 12,
+		color: 'white', // color: '#555555',
+		fontSize: 10,
 	},
 });
