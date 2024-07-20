@@ -18,7 +18,7 @@ const Index = ({ song, songs, dispatch, route: { params }, navigation: { goBack 
 	const stopBtnAnim = useRef(new Animated.Value(song?.soundObj?.isPlaying ? 1 : 0.3)).current;
 	const [isFav, setIsFav] = useState(false);
 	const [newList, setNewList] = useState(null);
-	const [count, setCount] = useState(0);
+	const [newRecents] = useState<Array<any>>([]);
 	const [shuffle, setShuffle] = useState<boolean>(false);
 	const [actions, setActions] = useState({
 		prev: false,
@@ -235,9 +235,14 @@ const Index = ({ song, songs, dispatch, route: { params }, navigation: { goBack 
 
 	const handlePrev = async () => {
 		_e({ prev: true });
-		await newListOfSongs();
+		setShuffle(await Storage.get('shuffle', false) == 'true' ? true : false);
+		if (!newRecents.length) {
+			newRecents.push(...await Storage.get('recents', true));
+		}
+		newRecents.shift();// currently playing
 		const currentIndex = songs.findIndex((i: any) => i.id === song?.detail?.id);
-		const prevIndex = currentIndex === 0 ? songs.length - 1 : currentIndex - 1;
+		//const prevIndex = currentIndex === 0 ? songs.length - 1 : currentIndex - 1; // OLD
+		const prevIndex = currentIndex === 0 ? songs.length - 1 : (newRecents.length ? newRecents.shift() : currentIndex - 1);
 		const prevSong = songs[prevIndex];
 
 		return handleStop(() => {
@@ -261,9 +266,11 @@ const Index = ({ song, songs, dispatch, route: { params }, navigation: { goBack 
 
 	async function handleNext() {
 		_e({ next: true });
+		setShuffle(await Storage.get('shuffle', false) == 'true' ? true : false);
 		const currentIndex = songs.findIndex((i: any) => i.id === song?.detail?.id);
 		const randomIndex = Math.floor(Math.random() * songs.length);
 		const nextIndex = shuffle ? randomIndex : (currentIndex === songs.length - 1 ? 0 : currentIndex + 1);
+		newRecents.unshift(nextIndex);
 		const nextSong = songs[nextIndex];
 
 		return handleStop(() => {
@@ -321,7 +328,7 @@ const Index = ({ song, songs, dispatch, route: { params }, navigation: { goBack 
 		(async () => {
 			setShuffle(await Storage.get('shuffle', false) == 'true' ? true : false);
 			await soundDetailRecovery();
-			await newListOfSongs();
+			//await newListOfSongs();
 			await Audio.init();
 			configAndPlay();
 		})();

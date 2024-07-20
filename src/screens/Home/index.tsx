@@ -1,7 +1,9 @@
 import React, { useState } from 'react';
-import { Dimensions, Image, ScrollView, StyleSheet, View } from 'react-native';
+import { Alert, Button, Dimensions, Image, ScrollView, StyleSheet, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useAssets } from 'expo-asset';
+import { Storage } from '@/src/helpers';
+import * as Updates from 'expo-updates';
 
 import { Footer, Header, Section, Drawer } from '../../widgets';
 import { Icon } from '../../components';
@@ -9,6 +11,21 @@ import { Icon } from '../../components';
 const Index = () => {
 	const [assets] = useAssets([require('@/src/assets/icons/hamburger.png'), require('@/src/assets/icons/search.png')]);
 	const [drawer, setDrawer] = useState(false);
+
+	(async () => {
+		await loadingAllFoundSongs();
+	})();
+	async function loadingAllFoundSongs() {
+		try {
+			const initializedSong = await Storage.get('initialized', true);
+			if (!initializedSong) {
+				await Storage.store('initialized', 'true', false);
+				Alert.alert('Carregando...', 'Carregando suas músicas.', [{ text: 'OK', onPress: async () => await Updates.reloadAsync() }]);
+			}
+		} catch (error) {
+			console.log(error);
+		}
+	}
 
 	return (
 		<Drawer active={drawer} current="home" onItemPressed={() => setDrawer(false)}>
