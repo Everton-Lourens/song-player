@@ -58,63 +58,119 @@ const Index = ({ songs, dispatch, style = {}, audios = [], indicator = true, use
 		setFavourites();
 	}, []);
 
-	return (
-		<View style={styles.container}>
-			<FlatList
-				style={{ ...style }}
+	if (useIndex) {
+		return renderRecentlyPlayed()
+	} else {
+		return renderWithFlatList();
+	}
+
+
+	function renderWithFlatList() {
+		return (
+			<View style={styles.container}>
+				<FlatList
+					style={{ ...style }}
+					contentContainerStyle={{
+						padding: 20,
+					}}
+					showsVerticalScrollIndicator={indicator}
+					data={audios}
+					keyExtractor={(item, index) => String(index)}
+					renderItem={({ item, index }) => {
+						const songIndex = songs.findIndex((i: any) => i?.id === item?.id);
+
+						return (
+							<Card.MusicList
+								imageURL={item?.img}
+								title={item?.title}
+								author={item?.author}
+								duration={item?.durationMillis}
+								onPlayPress={() => onPlayPress(item, songIndex)}
+								moreOptions={[
+									// @ts-ignore
+									{
+										text: 'Play',
+										onPress: () => onPlayPress(item, songIndex),
+									},
+									// @ts-ignore
+									{
+										// @ts-ignore
+										text: favs.includes(songIndex) ? 'Remove from favorite' : 'Add to favorite',
+										onPress: () => handleAddToFavourite(songIndex),
+									},
+									// @ts-ignore
+									{
+										text: 'Add to playlist',
+										onPress: () => {
+											setPlaylistModal(true);
+											setSongIndex(songIndex);
+										},
+									},
+								]}
+							/>
+						);
+					}}
+				/>
+				<Modal.Playlist visible={playlistModal} onClose={setPlaylistModal} songIndex={songIndex} />
+			</View>
+		);
+	}
+
+	function renderRecentlyPlayed() {
+		return (
+			<ScrollView
+				style={styles.container}
 				contentContainerStyle={{
+					...style,
 					padding: 20,
 				}}
 				showsVerticalScrollIndicator={indicator}
-				data={audios}
-				keyExtractor={(item, index) => String(index)}
-				renderItem={({ item, index }) => {
-					const songIndex = songs.findIndex((i: any) => i?.id === item?.id);
-
-					return (
-						<Card.MusicList
-							imageURL={item?.img}
-							title={item?.title}
-							author={item?.author}
-							duration={item?.durationMillis}
-							onPlayPress={() => onPlayPress(item, songIndex)}
-							moreOptions={[
+			>
+				{audios.map((index: any, key: any) => (
+					<Card.MusicList
+						key={key}
+						imageURL={songs[index]?.img}
+						title={songs[index]?.title}
+						author={songs[index]?.author}
+						duration={songs[index]?.durationMillis}
+						onPlayPress={() => onPlayPress(songs[index], index)}
+						// @ts-ignore
+						moreOptions={[
+							// @ts-ignore
+							{
+								text: 'Play',
+								onPress: () => onPlayPress(songs[index], index),
+							},
+							// @ts-ignore
+							{
 								// @ts-ignore
-								{
-									text: 'Play',
-									onPress: () => onPlayPress(item, songIndex),
+								text: favs.includes(index) ? 'Remove from favorite' : 'Add to favorite',
+								onPress: () => handleAddToFavourite(index),
+							},
+							// @ts-ignore
+							{
+								text: 'Add to playlist',
+								onPress: () => {
+									setPlaylistModal(true);
+									setSongIndex(index);
 								},
-									// @ts-ignore
-								{
-									// @ts-ignore
-									text: favs.includes(songIndex) ? 'Remove from favorite' : 'Add to favorite',
-									onPress: () => handleAddToFavourite(songIndex),
-								},
-										// @ts-ignore
-								{
-									text: 'Add to playlist',
-									onPress: () => {
-										setPlaylistModal(true);
-										setSongIndex(songIndex);
-									},
-								},
-							]}
-						/>
-					);
-				}}
-			/>
-			<Modal.Playlist visible={playlistModal} onClose={setPlaylistModal} songIndex={songIndex} />
-		</View>
-	);
+							},
+						]}
+					/>
+				))
+				}
+				<Modal.Playlist visible={playlistModal} onClose={setPlaylistModal} songIndex={songIndex} />
+			</ScrollView>
+		);
+	}
 };
 
 const mapStateToProps = (state: any) => ({ songs: state?.player?.songs });
 const mapDispatchToProps = (dispatch: any) => ({ dispatch });
 export default connect(mapStateToProps, mapDispatchToProps)(memo(Index));
-
+//export default connect(mapStateToProps, mapDispatchToProps)(memo(Index));
 const styles = StyleSheet.create({
 	container: {
 		flex: 1,
 	},
 });
-

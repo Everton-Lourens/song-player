@@ -23,7 +23,7 @@ const Index = ({ songs }: any) => {
 						},
 						middle: {
 							show: true,
-							text: 'Recently Played',
+							text: 'Recently Played', 
 						},
 						right: {
 							show: false,
