@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Alert, Dimensions, Image, ImageBackground, ScrollView, StyleSheet, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useAssets } from 'expo-asset';
@@ -9,11 +9,21 @@ import { Footer, Header, Section, Drawer } from '../../widgets';
 import { Icon } from '../../components';
 import Constants from 'expo-constants';
 import { StatusBar } from 'expo-status-bar';
-import { getRandomImg } from '@/src/store/config';
+import { getRandomImg, getUriPicture } from '@/src/store/config';
 
 const Index = () => {
 	const [assets] = useAssets([require('@/src/assets/icons/hamburger.png'), require('@/src/assets/icons/search.png')]);
 	const [drawer, setDrawer] = useState(false);
+	const [urlImg, setUrlImg] = useState('');
+
+	useEffect(() => {
+		const intervalId = setInterval(() => {
+			setUrlImg(getUriPicture);
+		}, 5000);
+
+		// Cleanup
+		return () => clearInterval(intervalId);
+	}, []);
 
 	(async () => {
 		await loadingAllFoundSongs();
@@ -33,7 +43,7 @@ const Index = () => {
 	return (
 		<Drawer active={drawer} current="home" onItemPressed={() => setDrawer(false)}>
 			<StatusBar style="light" backgroundColor='black' />
-			<ImageBackground style={styles.container_img} source={{ uri: getRandomImg() }} blurRadius={20} resizeMode="cover">
+			<ImageBackground style={styles.container_img} source={{ uri: urlImg }} blurRadius={25} resizeMode="cover">
 				<SafeAreaView style={styles.container}>
 					<Header
 						options={{

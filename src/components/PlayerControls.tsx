@@ -26,19 +26,19 @@ export const PlayerControls = ({ style }: PlayerControlsProps) => {
 }
 
 export const PlayPauseButton = ({ style, iconSize = 48 }: PlayerButtonProps) => {
-	//const { playing } = useIsPlaying()
 
-	return (
-		<View style={[{ height: iconSize }, style]}>
-			<TouchableOpacity
-				activeOpacity={0.85}
-				onPress={() => { }}
-			//onPress={playing ? TrackPlayer.pause : TrackPlayer.play}
-			>
-				<FontAwesome6 name={'play'} size={iconSize} color={colors.text} />
-			</TouchableOpacity>
-		</View>
-	)
+	//const { playing } = useIsPlaying()
+		return (
+			<View style={[{ height: iconSize }, style]}>
+				<TouchableOpacity
+					activeOpacity={0.85}
+					onPress={() => { }}
+				//onPress={playing ? TrackPlayer.pause : TrackPlayer.play}
+				>
+					<FontAwesome6 name={'play'} size={iconSize} color={colors.text} />
+				</TouchableOpacity>
+			</View>
+		)
 }
 
 export const SkipToNextButton = ({ iconSize = 30 }: PlayerButtonProps) => {

@@ -8,9 +8,9 @@ import Icon from '../../components/Icon';
 import { DISPATCHES, SCREENS } from '@/src/constants';
 import { Audio } from '../../hooks';
 import { Storage } from '../../helpers';
-import { getAllSongs } from '@/src/store/config';
+import { getAllSongs, setUriPicture } from '@/src/store/config';
 import songDetail from '@/src/store/states/player';
-import { PlayerControls } from '@/src/components/PlayerControls';
+//import { PlayerControls } from '@/src/components/PlayerControls';
 
 const { width } = Dimensions.get('screen');
 
@@ -130,7 +130,7 @@ const Index = ({ song, songs, dispatch }: any) => {
 						soundObj,
 					},
 				});
-
+				setUriPicture(song?.detail?.img);
 				addToRecentlyPlayed(songs.findIndex((i: any) => i.id === song?.detail?.id));
 			})(onPlaybackStatusUpdate);
 		}
@@ -165,7 +165,6 @@ const Index = ({ song, songs, dispatch }: any) => {
 						soundObj,
 					},
 				});
-
 				_e({ play: false });
 			});
 		}
@@ -218,6 +217,7 @@ const Index = ({ song, songs, dispatch }: any) => {
 				(async () => {
 					setShuffle(await Storage.get('shuffle', false) == 'true' ? true : false);
 				})();
+				setUriPicture(prevSong?.img);
 				addToRecentlyPlayed(prevIndex);
 				_e({ prev: false });
 			})(onPlaybackStatusUpdate);
@@ -248,6 +248,7 @@ const Index = ({ song, songs, dispatch }: any) => {
 					setShuffle(await Storage.get('shuffle', false) == 'true' ? true : false);
 					await Storage.store('detail', (song?.detail || songDetail?.currentSong?.detail), true);
 				})();
+				setUriPicture(nextSong?.img);
 				addToRecentlyPlayed(nextIndex);
 				_e({ next: false });
 			})(onPlaybackStatusUpdate);
@@ -279,6 +280,7 @@ const Index = ({ song, songs, dispatch }: any) => {
 			configAndPlay();
 		})();
 	}, []);
+
 
 	return (
 		<View style={styles.container}>

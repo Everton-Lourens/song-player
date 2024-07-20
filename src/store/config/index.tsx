@@ -1,5 +1,6 @@
 import * as MediaLibrary from 'expo-media-library';
 import { allSongs } from './storage';
+var uriImgValue: string = '';
 
 const getMediaLibrary = async () => {
   try {
@@ -185,6 +186,14 @@ export function getRandomImg() {
     'https://img.freepik.com/fotos-gratis/guitarra-eletrica-com-luz-de-neon-natureza-morta_23-2151376202.jpg?t=st=1721447295~exp=1721447895~hmac=ec8fd57dc6442e1cf09347b9ec0cf0f0294ab126fac0f08ed9e7fc30a23ae7fe',
     'https://img.freepik.com/fotos-premium/uma-arte-digital-de-um-reprodutor-de-musica-com-notas-coloridas-e-um-fundo-preto_900370-14342.jpg'
   ][Math.floor(Math.random() * 23)]
+}
+
+
+export function setUriPicture(uri: string) {
+  uriImgValue = uri;
+}
+export function getUriPicture() {
+  return uriImgValue ? uriImgValue : getRandomImg();
 }
 
 
