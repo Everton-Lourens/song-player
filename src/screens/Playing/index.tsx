@@ -33,7 +33,7 @@ const Index = ({ song, songs, dispatch, route: { params }, navigation: { goBack 
 
 	const soundDetailRecovery = async () => {
 		if (!song?.detail) {
-			song.detail = await Storage.get('detail', true);
+			song.detail = await Storage.get('detail', true) || songDetail?.currentSong?.detail;
 		}
 	}
 
@@ -235,7 +235,6 @@ const Index = ({ song, songs, dispatch, route: { params }, navigation: { goBack 
 
 	const handlePrev = async () => {
 		_e({ prev: true });
-		setShuffle(await Storage.get('shuffle', false) == 'true' ? true : false);
 		if (!newRecents.length) {
 			newRecents.push(...await Storage.get('recents', true));
 		}
@@ -257,7 +256,9 @@ const Index = ({ song, songs, dispatch, route: { params }, navigation: { goBack 
 						detail: prevSong,
 					},
 				});
-
+				(async () => {
+					setShuffle(await Storage.get('shuffle', false) == 'true' ? true : false);
+				})();
 				addToRecentlyPlayed(prevIndex);
 				_e({ prev: false });
 			})(onPlaybackStatusUpdate as any);
@@ -266,7 +267,6 @@ const Index = ({ song, songs, dispatch, route: { params }, navigation: { goBack 
 
 	async function handleNext() {
 		_e({ next: true });
-		setShuffle(await Storage.get('shuffle', false) == 'true' ? true : false);
 		const currentIndex = songs.findIndex((i: any) => i.id === song?.detail?.id);
 		const randomIndex = Math.floor(Math.random() * songs.length);
 		const nextIndex = shuffle ? randomIndex : (currentIndex === songs.length - 1 ? 0 : currentIndex + 1);
@@ -287,6 +287,7 @@ const Index = ({ song, songs, dispatch, route: { params }, navigation: { goBack 
 				});
 				addToRecentlyPlayed(nextIndex);
 				(async () => {
+					setShuffle(await Storage.get('shuffle', false) == 'true' ? true : false);
 					await Storage.store('detail', (song?.detail || songDetail?.currentSong?.detail), true);
 				})();
 				_e({ next: false });
