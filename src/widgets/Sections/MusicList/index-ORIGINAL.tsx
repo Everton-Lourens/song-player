@@ -1,5 +1,5 @@
 import React, { memo, useEffect, useState } from 'react';
-import { FlatList, ScrollView, StyleSheet, View } from 'react-native';
+import { ScrollView, StyleSheet } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { connect } from 'react-redux';
 
@@ -59,52 +59,85 @@ const Index = ({ songs, dispatch, style = {}, audios = [], indicator = true, use
 	}, []);
 
 	return (
-		<View style={styles.container}>
-			<FlatList
-				style={{ ...style }}
-				contentContainerStyle={{
-					padding: 20,
-				}}
-				showsVerticalScrollIndicator={indicator}
-				data={audios}
-				keyExtractor={(item, index) => String(index)}
-				renderItem={({ item, index }) => {
-					const songIndex = songs.findIndex((i: any) => i?.id === item?.id);
+		<ScrollView
+			style={styles.container}
+			contentContainerStyle={{
+				...style,
+				padding: 20,
+			}}
+			showsVerticalScrollIndicator={indicator}
+		>
+			{useIndex
+				? audios.map((index: any, key: any) => (
+					<Card.MusicList
+						key={key}
+						imageURL={songs[index]?.img}
+						title={songs[index]?.title}
+						author={songs[index]?.author}
+						duration={songs[index]?.durationMillis}
+						onPlayPress={() => onPlayPress(songs[index], index)}
+						// @ts-ignore
+						moreOptions={[
+							// @ts-ignore
+							{
+								text: 'Play',
+								onPress: () => onPlayPress(songs[index], index),
+							},
+							// @ts-ignore
+							{
+								// @ts-ignore
+								text: favs.includes(index) ? 'Remove from favorite' : 'Add to favorite',
+								onPress: () => handleAddToFavourite(index),
+							},
+							// @ts-ignore
+							{
+								text: 'Add to playlist',
+								onPress: () => {
+									setPlaylistModal(true);
+									setSongIndex(index);
+								},
+							},
+						]}
+					/>
+				))
+				: audios.map((song: any, key: any) => {
+					const index = songs.findIndex((i: any) => i?.id === song?.id);
 
 					return (
 						<Card.MusicList
-							imageURL={item?.img}
-							title={item?.title}
-							author={item?.author}
-							duration={item?.durationMillis}
-							onPlayPress={() => onPlayPress(item, songIndex)}
+							key={key}
+							imageURL={song?.img}
+							title={song?.title}
+							author={song?.author}
+							duration={song?.durationMillis}
+							onPlayPress={() => onPlayPress(song, index)}
 							moreOptions={[
 								// @ts-ignore
 								{
 									text: 'Play',
-									onPress: () => onPlayPress(item, songIndex),
+									onPress: () => onPlayPress(song, index),
 								},
 									// @ts-ignore
 								{
 									// @ts-ignore
-									text: favs.includes(songIndex) ? 'Remove from favorite' : 'Add to favorite',
-									onPress: () => handleAddToFavourite(songIndex),
+									text: favs.includes(index) ? 'Remove from favorite' : 'Add to favorite',
+									onPress: () => handleAddToFavourite(index),
 								},
 										// @ts-ignore
 								{
 									text: 'Add to playlist',
 									onPress: () => {
 										setPlaylistModal(true);
-										setSongIndex(songIndex);
+										setSongIndex(index);
 									},
 								},
 							]}
 						/>
 					);
-				}}
-			/>
+				})}
+
 			<Modal.Playlist visible={playlistModal} onClose={setPlaylistModal} songIndex={songIndex} />
-		</View>
+		</ScrollView>
 	);
 };
 
@@ -117,4 +150,3 @@ const styles = StyleSheet.create({
 		flex: 1,
 	},
 });
-

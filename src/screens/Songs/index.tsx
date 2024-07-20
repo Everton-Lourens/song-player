@@ -3,18 +3,12 @@ import { Button, Dimensions, Image, StyleSheet, Text, View } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useAssets } from 'expo-asset';
 import { connect } from 'react-redux';
-import * as MediaLibrary from 'expo-media-library';
 import { Header, Section, Drawer } from '../../widgets';
 import { Icon } from '../../components';
-import { getAllSongs } from '@/src/store/playlist';
 
 const Index = ({ songs }: any) => {
 	const [assets] = useAssets([require('@/src/assets/icons/hamburger.png'), require('@/src/assets/icons/search.png')]);
 	const [drawer, setDrawer] = useState(false);
-	const [permissionResponse, requestPermission] = MediaLibrary.usePermissions();
-	const [allSongs, setAllSongs] = useState(null);
-
-
 
 	return (
 		<Drawer active={drawer} current="songs" onItemPressed={() => setDrawer(false)}>

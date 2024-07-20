@@ -41,6 +41,7 @@ const MusicList = ({ style = {}, imageURL, title = 'Song Title', author = `Autho
 				<View style={styles.right}>
 					<TouchableOpacity onPress={onPlayPress}>
 						<LinearGradient style={styles.playBtn} colors={['#939393', '#000']}>
+							{/*// @ts-ignore*/}
 							<Icon name="play" color="#C4C4C4" />
 						</LinearGradient>
 					</TouchableOpacity>
