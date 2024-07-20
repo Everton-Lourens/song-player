@@ -35,7 +35,7 @@ const Index = ({ style = { marginTop: 10, marginHorizontal: 10 }, options = {} }
 			style: {},
 			show: false,
 			text: null,
-			children: <MiddleChildren text="Title" />,
+			children: <MiddleChildren text="Título" />,
 			// @ts-ignore
 			...options?.middle,
 		},

@@ -12,10 +12,10 @@ import * as Animatable from 'react-native-animatable';
 import { SCREENS } from '@/src/constants';
 
 const menus = [
-	{ name: 'home', title: 'Home', screen: SCREENS.HOME },
-	{ name: 'songs', title: 'songs', screen: SCREENS.SONGS },
-	{ name: 'favourite', title: 'Favourite', screen: SCREENS.FAVOURITE },
-	{ name: 'recent', title: 'Recently Played', screen: SCREENS.RECENT },
+	{ name: 'home', title: 'Início', screen: SCREENS.HOME },
+	{ name: 'songs', title: 'Músicas', screen: SCREENS.SONGS },
+	{ name: 'favourite', title: 'Favoritos', screen: SCREENS.FAVOURITE },
+	{ name: 'recent', title: 'Recente', screen: SCREENS.RECENT },
 	{ name: 'playlist', title: 'Playlist', screen: SCREENS.PLAYLISTS },
 ];
 
@@ -82,14 +82,14 @@ const Index = ({
 						))}
 					</View>
 					<Animatable.View style={styles.bottom} animation={active ? 'slideInUp' : 'slideOutDown'} duration={2000}>
+					<Animatable.View animation="pulse" easing="ease-out" iterationCount="infinite">
+							<TouchableOpacity style={styles.bottomBtn} activeOpacity={0.7} onPress={() => Linking.openURL('https://www.instagram.com/everton_lourens/')}>
+								<Text style={styles.bottomBtnTxt}>Meu instagram</Text>
+							</TouchableOpacity>
+						</Animatable.View>
 						<TouchableOpacity style={styles.bottomBtn} activeOpacity={0.7} onPress={bottomBtn?.onPress}>
 							<Text style={styles.bottomBtnTxt}>{bottomBtn?.text}</Text>
 						</TouchableOpacity>
-						<Animatable.View animation="pulse" easing="ease-out" iterationCount="infinite">
-							<TouchableOpacity style={styles.bottomBtn} activeOpacity={0.7} onPress={() => Linking.openURL('https://ko-fi.com/jsxclan')}>
-								<Text style={styles.bottomBtnTxt}>Buy me a coffee ☕</Text>
-							</TouchableOpacity>
-						</Animatable.View>
 					</Animatable.View>
 				</View>
 

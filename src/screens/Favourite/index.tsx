@@ -23,7 +23,7 @@ const Index = ({ songs }: any) => {
 						},
 						middle: {
 							show: true,
-							text: 'My Favourites',
+							text: 'Meus Favoritos',
 						},
 						right: {
 							show: false,
@@ -35,7 +35,7 @@ const Index = ({ songs }: any) => {
 						<Section.MusicList audios={songs} indicator={false} useIndex={true} />
 					) : (
 						<View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-							<Text style={{ fontSize: 24, fontWeight: 'bold', color: 'rgba(0, 0, 0, .3)' }}>No favourite yet!</Text>
+							<Text style={{ fontSize: 24, fontWeight: 'bold', color: 'rgba(0, 0, 0, .3)' }}>Sem favoritos ainda!</Text>
 						</View>
 					)}
 				</View>

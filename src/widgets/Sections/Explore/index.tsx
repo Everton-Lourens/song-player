@@ -14,6 +14,7 @@ const Index = ({ style = {} }) => {
 				style={{ marginLeft: 20 }}
 				title="Suas Músicas"
 				subtitle="Lista de músicas"
+				// @ts-ignore
 				onPress={() => navigate(SCREENS.SONGS)}
 			/>
 			<Card.Explore />

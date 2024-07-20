@@ -37,10 +37,10 @@ const Index = ({ songs }: any) => {
 						<View style={styles.input}>
 							{/*// @ts-ignore */}
 							<Icon name="search" color="#FFF" />
-							<TextInput style={styles.textInput} onChangeText={handleInput} value={search} returnKeyType="search" placeholder="Search..." />
+							<TextInput style={styles.textInput} onChangeText={handleInput} value={search} returnKeyType="search" placeholder="Pesquisar..." />
 						</View>
 						<TouchableOpacity style={styles.btn} onPress={() => goBack()}>
-							<Text style={styles.btnTxt}>Cancel</Text>
+							<Text style={styles.btnTxt}>Cancelar</Text>
 						</TouchableOpacity>
 					</View>
 					<View style={styles.result}>
@@ -48,7 +48,7 @@ const Index = ({ songs }: any) => {
 							<Section.MusicList audios={audios} />
 						) : (
 							<View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-								<Text style={{ fontSize: 24, fontWeight: 'bold', color: 'rgba(0, 0, 0, .3)' }}>Search something...</Text>
+								<Text style={{ fontSize: 24, fontWeight: 'bold', color: 'rgba(0, 0, 0, .3)' }}>Pesquise algo...</Text>
 							</View>
 						)}
 					</View>
@@ -94,9 +94,9 @@ const styles = StyleSheet.create({
 	},
 	btnTxt: {
 		color: '#C4C4C4',
-		fontSize: 18,
+		fontSize: 15,
 		fontWeight: 'bold',
-		letterSpacing: 1,
+		letterSpacing: 0,
 	},
 	result: {
 		flex: 1,

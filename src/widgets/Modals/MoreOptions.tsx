@@ -6,20 +6,20 @@ const { width, height } = Dimensions.get('screen');
 
 const MoreOptions = ({
 	visible = false,
-	onClose = (p0: boolean) => {},
-	title = 'Song Title',
+	onClose = (p0: boolean) => { },
+	title = 'Título da Música',
 	moreOptions = [
 		{
-			text: 'Play',
-			onPress: () => alert('Play song'),
+			text: 'Iniciar',
+			onPress: () => alert('Iniciar música'),
 		},
 		{
-			text: 'Add to favorite',
-			onPress: () => alert('Add song to favorite'),
+			text: 'Adicionar aos favoritos',
+			onPress: () => alert('Adicionar música aos favoritos'),
 		},
 		{
-			text: 'Add to playlist',
-			onPress: () => alert('Add song to playlist'),
+			text: 'Adicionar à playlist',
+			onPress: () => alert('Adicionar música à playlist'),
 		},
 	],
 }) => {

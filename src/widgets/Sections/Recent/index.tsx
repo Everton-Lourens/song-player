@@ -27,7 +27,7 @@ const Index = ({ recents, songs, style = {} } : any) => {
 	return (
 		audios &&
 		audios.length > 0 && (
-			<Container style={style} title="Recently played">
+			<Container style={style} title="Tocou Recentemente">
 				{audios.map((index, key) => (
 					<Card.Recent
 						key={key}

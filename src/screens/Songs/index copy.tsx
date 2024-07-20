@@ -37,7 +37,7 @@ const Index = ({ songs }: any) => {
 						},
 						middle: {
 							show: true,
-							text: 'All Songs',
+							text: 'Todas as músicas',
 						},
 						right: {
 							show: false,

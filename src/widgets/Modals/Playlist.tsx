@@ -63,13 +63,13 @@ const Playlist = ({ storedPlaylists, dispatch, visible = false, onClose = () => 
 		};
 
 		if (playlists.filter((i: any) => i?.name.toLowerCase() === playlist?.name.toLowerCase()).length >= 1) {
-			return Alert.alert('Playlist', 'Playlist already exists!', [
+			return Alert.alert('Playlist', 'Playlist já existe!', [
 				{
-					text: 'Close',
+					text: 'Fechar',
 					style: 'cancel',
 				},
 				{
-					text: 'Add to playlist',
+					text: 'Adicionar à playlist',
 					onPress: () => {
 						addToPlaylist(playlist?.name);
 						setNewPlaylist(false);
@@ -122,17 +122,17 @@ const Playlist = ({ storedPlaylists, dispatch, visible = false, onClose = () => 
 
 				{!newPlaylist && (
 					<TouchableOpacity style={styles.item} onPress={() => setNewPlaylist(true)} activeOpacity={0.6}>
-						<Text style={{ color: 'rgba(0, 0, 0, .5)', fontSize: 16, letterSpacing: 1 }}>Create playlist</Text>
+						<Text style={{ color: 'rgba(0, 0, 0, .5)', fontSize: 16, letterSpacing: 1 }}>Criar playlist</Text>
 					</TouchableOpacity>
 				)}
 
 				{newPlaylist && (
 					<View style={{ flexDirection: 'row', marginBottom: 10 }}>
 						<View style={styles.input}>
-							<TextInput style={styles.textInput} onChangeText={handleInput} value={input} placeholder="Playlist Name : " maxLength={25} />
+							<TextInput style={styles.textInput} onChangeText={handleInput} value={input} placeholder="Nome da Playlist : " maxLength={25} />
 						</View>
 						<TouchableOpacity style={styles.btn} onPress={input.length >= 3 ? createPlaylist : () => {}}>
-							<Text style={[styles.btnTxt, { color: '#C07037' }, input.length < 3 && { opacity: 0.5 }]}>Create</Text>
+							<Text style={[styles.btnTxt, { color: '#C07037' }, input.length < 3 && { opacity: 0.5 }]}>Criar</Text>
 						</TouchableOpacity>
 						<TouchableOpacity
 							style={styles.btn}
@@ -141,7 +141,7 @@ const Playlist = ({ storedPlaylists, dispatch, visible = false, onClose = () => 
 								setInput('');
 							}}
 						>
-							<Text style={styles.btnTxt}>Cancel</Text>
+							<Text style={styles.btnTxt}>Cancelar</Text>
 						</TouchableOpacity>
 					</View>
 				)}

@@ -50,7 +50,7 @@ const Index = ({ songs, playlists, navigation } : any) => {
 					</ScrollView>
 				) : (
 					<View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-						<Text style={{ fontSize: 24, fontWeight: 'bold', color: 'rgba(0, 0, 0, .3)' }}>No playlists yet!</Text>
+						<Text style={{ fontSize: 24, fontWeight: 'bold', color: 'rgba(0, 0, 0, .3)' }}>Sem playlist ainda!</Text>
 					</View>
 				)}
 			</SafeAreaView>

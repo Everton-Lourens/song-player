@@ -30,13 +30,13 @@ const Index = ({ songs, playlists, dispatch, route: { params }, navigation: { go
 	};
 
 	const handleDelete = () => {
-		Alert.alert('Trash', `Are you sure you want to delete "${playlist?.name}" playlist?`, [
+		Alert.alert('Lixeira', `Você tem certeza de que deseja excluir a playlist "${playlist?.name}"?`, [
 			{
-				text: 'No! Thanks',
+				text: 'Não! Obrigado(a)',
 				style: 'cancel',
 			},
 			{
-				text: 'Yes! Please',
+				text: 'Sim! Por favor',
 				onPress: async () => {
 					await deletePlaylist();
 					goBack();
@@ -74,7 +74,7 @@ const Index = ({ songs, playlists, dispatch, route: { params }, navigation: { go
 							{playlist?.name}
 						</Text>
 						<Text style={styles.subtitle} numberOfLines={1}>
-							{`${playlist?.songs?.length} Songs`}
+							{`${playlist?.songs?.length} Músicas`}
 						</Text>
 					</View>
 				</ImageBackground>
@@ -84,7 +84,7 @@ const Index = ({ songs, playlists, dispatch, route: { params }, navigation: { go
 					<Section.MusicList audios={playlist?.songs} indicator={false} useIndex={true} />
 				) : (
 					<View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-						<Text style={{ fontSize: 24, fontWeight: 'bold', color: 'rgba(0, 0, 0, .3)' }}>No songs</Text>
+						<Text style={{ fontSize: 24, fontWeight: 'bold', color: 'rgba(0, 0, 0, .3)' }}>Sem músicas</Text>
 					</View>
 				)}
 			</ScrollView>

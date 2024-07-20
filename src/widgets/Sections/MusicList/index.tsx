@@ -89,18 +89,18 @@ const Index = ({ songs, dispatch, style = {}, audios = [], indicator = true, use
 								moreOptions={[
 									// @ts-ignore
 									{
-										text: 'Play',
+										text: 'Iniciar',
 										onPress: () => onPlayPress(item, songIndex),
 									},
 									// @ts-ignore
 									{
 										// @ts-ignore
-										text: favs.includes(songIndex) ? 'Remove from favorite' : 'Add to favorite',
+										text: favs.includes(songIndex) ? 'Remover dos favoritos' : 'Adicionar aos favoritos',
 										onPress: () => handleAddToFavourite(songIndex),
 									},
 									// @ts-ignore
 									{
-										text: 'Add to playlist',
+										text: 'Adicionar à playlist',
 										onPress: () => {
 											setPlaylistModal(true);
 											setSongIndex(songIndex);
@@ -138,18 +138,18 @@ const Index = ({ songs, dispatch, style = {}, audios = [], indicator = true, use
 						moreOptions={[
 							// @ts-ignore
 							{
-								text: 'Play',
+								text: 'Iniciar',
 								onPress: () => onPlayPress(songs[index], index),
 							},
 							// @ts-ignore
 							{
 								// @ts-ignore
-								text: favs.includes(index) ? 'Remove from favorite' : 'Add to favorite',
+								text: favs.includes(index) ? 'Remover dos favoritos' : 'Adicionar aos favoritos',
 								onPress: () => handleAddToFavourite(index),
 							},
 							// @ts-ignore
 							{
-								text: 'Add to playlist',
+								text: 'Adicionar à playlist',
 								onPress: () => {
 									setPlaylistModal(true);
 									setSongIndex(index);

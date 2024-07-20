@@ -23,7 +23,7 @@ const Index = ({ songs }: any) => {
 						},
 						middle: {
 							show: true,
-							text: 'Recently Played', 
+							text: 'Tocou Recentemente', 
 						},
 						right: {
 							show: false,
@@ -35,7 +35,7 @@ const Index = ({ songs }: any) => {
 						<Section.MusicList audios={songs} indicator={false} useIndex={true} />
 					) : (
 						<View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-							<Text style={{ fontSize: 24, fontWeight: 'bold', color: 'rgba(0, 0, 0, .3)' }}>No recent yet!</Text>
+							<Text style={{ fontSize: 24, fontWeight: 'bold', color: 'rgba(0, 0, 0, .3)' }}>Sem "recentes" ainda!</Text>
 						</View>
 					)}
 				</View>
