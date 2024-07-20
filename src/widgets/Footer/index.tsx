@@ -218,10 +218,10 @@ const Index = ({ song, songs, dispatch }: any) => {
 	async function handleNext() {
 		_e({ next: true });
 		const currentIndex = songs.findIndex((i: any) => i.id === song?.detail?.id);
-		const nextIndex = currentIndex === songs.length - 1 ? 0 : currentIndex + 1;
 		const randomIndex = Math.floor(Math.random() * songs.length);
-		const nextSong = songs[shuffle ? randomIndex : nextIndex];
-		
+		const nextIndex = shuffle ? randomIndex : (currentIndex === songs.length - 1 ? 0 : currentIndex + 1);
+		const nextSong = songs[nextIndex];
+
 		return handleStop(() => {
 			Audio.play(
 				song?.playback,
