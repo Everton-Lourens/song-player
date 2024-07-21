@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Alert, Dimensions, Image, ImageBackground, ScrollView, StyleSheet, View } from 'react-native';
+import { Alert, Animated, Dimensions, Image, ImageBackground, ScrollView, StyleSheet, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useAssets } from 'expo-asset';
 import { Storage } from '@/src/helpers';
@@ -9,18 +9,17 @@ import { Footer, Header, Section, Drawer } from '../../widgets';
 import { Icon } from '../../components';
 import Constants from 'expo-constants';
 import { StatusBar } from 'expo-status-bar';
-import { getRandomImg, getUriPicture } from '@/src/store/config';
+import { getUriPicture } from '@/src/store/config';
 
 const Index = () => {
 	const [assets] = useAssets([require('@/src/assets/icons/hamburger.png'), require('@/src/assets/icons/search.png')]);
 	const [drawer, setDrawer] = useState(false);
-	const [urlImg, setUrlImg] = useState('');
+	const [urlImg, setUrlImg] = useState('https://img.freepik.com/premium-photo/headphones-music-background-generative-ai_1160-3253.jpg');
 
 	useEffect(() => {
 		const intervalId = setInterval(() => {
-			setUrlImg(getUriPicture);
-		}, 5000);
-
+			setUrlImg(getUriPicture || urlImg);
+		}, 1000);
 		// Cleanup
 		return () => clearInterval(intervalId);
 	}, []);
@@ -33,7 +32,7 @@ const Index = () => {
 			const initializedSong = await Storage.get('initialized', true);
 			if (!initializedSong) {
 				await Storage.store('initialized', 'true', false);
-				Alert.alert('Carregando músicas...', 'Isso não vai demorar.', [{ text: 'OK', onPress: async () => await Updates.reloadAsync() }]);
+				Alert.alert('Carregando músicas...', 'O aplicativo precisa ser reiniciado.', [{ text: 'OK', onPress: async () => await Updates.reloadAsync() }]);
 			}
 		} catch (error) {
 			console.log(error);
@@ -42,8 +41,9 @@ const Index = () => {
 
 	return (
 		<Drawer active={drawer} current="home" onItemPressed={() => setDrawer(false)}>
+			<ImageBackground style={styles.backgroundcontainer} source={{ uri: urlImg }} blurRadius={20} resizeMode="cover">
 			<StatusBar style="light" backgroundColor='black' />
-			<ImageBackground style={styles.container_img} source={{ uri: urlImg }} blurRadius={25} resizeMode="cover">
+
 				<SafeAreaView style={styles.container}>
 					<Header
 						options={{
@@ -70,6 +70,7 @@ const Index = () => {
 					</View>
 					<Footer />
 				</SafeAreaView>
+
 			</ImageBackground>
 		</Drawer>
 	);
@@ -80,8 +81,10 @@ export default Index;
 const styles = StyleSheet.create({
 	container: {
 		flex: 1,
-	}, container_img: {
+	},
+	backgroundcontainer: {
 		flex: 1,
+		backgroundColor: 'black',
 		paddingTop: Constants.statusBarHeight,
 	},
 	sections: {
