@@ -160,7 +160,6 @@ export function getRandomImg() {
   return [
     'https://media.istockphoto.com/id/488580912/photo/cello-silhouette.jpg?s=612x612&w=0&k=20&c=xmmVc-mF_IROL5HlaIKxxV2-qZCWukC3liTa3jUd7v8=',
     'https://st3.depositphotos.com/29384342/34063/i/450/depositphotos_340632074-stock-photo-abstract-arrangement-violin-graphic-musical.jpg',
-    'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS9Mpijl1GjibriNkXjUd95Fyr9icED3XjwGywJJVw0zeHum_4b3qyY3EqU8NzufL1NSXQ',
     'https://img.freepik.com/fotos-gratis/fundo-musical-volumetrico-com-uma-clave-de-sol-e-ia-geradora-de-notas_169016-29576.jpg',
     'https://static.vecteezy.com/system/resources/previews/029/573/477/non_2x/headphones-for-listening-to-music-and-enjoying-the-bass-and-beats-bright-arc-headphones-free-photo.jpg',
     'https://i.pinimg.com/736x/6c/02/ef/6c02efaed4ac7071868600b778ac4157.jpg',

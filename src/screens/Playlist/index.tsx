@@ -84,7 +84,7 @@ const Index = ({ songs, playlists, dispatch, route: { params }, navigation: { go
 					<Section.MusicList audios={playlist?.songs} indicator={false} useIndex={true} />
 				) : (
 					<View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-						<Text style={{ fontSize: 24, fontWeight: 'bold', color: 'rgba(0, 0, 0, .3)' }}>Sem músicas</Text>
+						<Text style={{ fontSize: 24, fontWeight: 'bold', color: '#C4C4C4' }}>Sem músicas</Text>
 					</View>
 				)}
 			</ScrollView>

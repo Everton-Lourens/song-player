@@ -6,7 +6,7 @@ import Icon from '../Icon';
 import * as Modal from '../../widgets/Modals';
 import { millisToMin } from '../../helpers';
 
-const MusicList = ({ style = {}, imageURL, title = 'Song Title', author = `Author Name`, duration = '03:22', onPlayPress = () => {}, moreOptions = [] }: any) => {
+const MusicList = ({ style = {}, imageURL, title = 'Song Title', author = `Author Name`, duration = '03:22', onPlayPress = () => { }, moreOptions = [] }: any) => {
 	const [moreOptionsModal, setMoreOptionsModal] = useState(false);
 
 	return (
@@ -34,9 +34,10 @@ const MusicList = ({ style = {}, imageURL, title = 'Song Title', author = `Autho
 						<Text style={styles.title} numberOfLines={2}>
 							{title}
 						</Text>
-						<Text style={styles.author}>{author}</Text>
+						{author && <Text style={styles.author}>{author}</Text>}
+						{!author && <Text style={styles.duration}>{millisToMin(duration)}</Text>}
 					</View>
-					<Text style={styles.duration}>{millisToMin(duration)}</Text>
+					{author && <Text style={styles.duration}>{millisToMin(duration)}</Text>}
 				</View>
 				<View style={styles.right}>
 					<TouchableOpacity onPress={onPlayPress}>
@@ -79,12 +80,13 @@ const styles = StyleSheet.create({
 		fontSize: 18,
 		fontWeight: 'bold',
 		letterSpacing: 1,
+		color: 'white',
 	},
 	author: {
 		color: '#888',
 	},
 	duration: {
-		color: '#A4A4A4',
+		color: '#A4A4A4', // '#A4A4A4',
 	},
 	playBtn: {
 		justifyContent: 'center',

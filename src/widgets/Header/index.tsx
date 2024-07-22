@@ -10,7 +10,7 @@ const MiddleChildren = ({ text }: any) => (
 	<Text
 		style={{
 			fontSize: 20,
-			color: '#A4A4A4',
+			color: 'white', // '#A4A4A4',
 		}}
 	>
 		{text}
